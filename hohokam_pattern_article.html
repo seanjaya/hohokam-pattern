@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Hohokam Pattern — somewhere-else.org</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..600&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sand:#e7d7b8;
+    --sand-deep:#dcc8a2;
+    --paper:#f1e7d2;
+    --ink:#2b2014;
+    --ink-soft:#6a5742;
+    --rule:#c7b48f;
+    --heat1:#e0a35a;
+    --heat2:#c9703a;
+    --heat3s:#a44523;
+    --heat4:#6f2613;
+    --water:#1d7b73;
+    --water-bright:#2aa39a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--sand);
+    color:var(--ink);
+    font-family:'Spectral',Georgia,serif;
+    font-size:19px;
+    line-height:1.66;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+    overflow-x:hidden;
+  }
+  /* warm atmosphere: heat-haze gradient + radial glow */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(120% 80% at 78% -10%, rgba(224,163,90,.40), transparent 55%),
+      radial-gradient(90% 60% at 10% 110%, rgba(111,38,19,.14), transparent 60%),
+      linear-gradient(180deg, rgba(241,231,210,.55), rgba(231,215,184,0) 22%);
+  }
+  /* film grain */
+  body::after{
+    content:"";position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap{position:relative;z-index:2;}
+
+  /* ---- the canal line: a lone cool thread down the page ---- */
+  .canal{
+    position:absolute;top:0;bottom:0;left:max(28px,calc(50% - 470px));
+    width:2px;z-index:2;
+    background:linear-gradient(var(--water),var(--water) 60%,rgba(29,123,115,.25));
+  }
+  .canal::before{
+    content:"";position:absolute;inset:0;width:2px;
+    background-image:linear-gradient(var(--water-bright) 50%, transparent 50%);
+    background-size:2px 16px;opacity:.85;
+    animation:flow 2.4s linear infinite;
+  }
+  @keyframes flow{to{background-position:0 16px;}}
+
+  /* ---- layout ---- */
+  .col{max-width:680px;margin:0 auto;padding:0 32px;}
+  .masthead{padding:78px 0 30px;}
+  .eyebrow{
+    font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.32em;
+    text-transform:uppercase;color:var(--water);font-weight:700;
+    display:flex;gap:14px;align-items:center;
+  }
+  .eyebrow::after{content:"";height:1px;flex:1;background:var(--rule);}
+  h1{
+    font-family:'Fraunces',serif;font-weight:600;font-optical-sizing:auto;
+    font-size:clamp(46px,9vw,92px);line-height:.96;letter-spacing:-.02em;
+    margin:26px 0 0;color:var(--ink);
+  }
+  h1 .ital{font-style:italic;font-weight:340;color:var(--heat3s);}
+  .dek{
+    font-family:'Fraunces',serif;font-weight:340;font-style:italic;
+    font-size:clamp(20px,3.2vw,27px);line-height:1.34;color:var(--ink-soft);
+    margin-top:26px;max-width:30ch;
+  }
+  .byline{
+    font-family:'Space Mono',monospace;font-size:12.5px;letter-spacing:.06em;
+    color:var(--ink-soft);margin-top:34px;
+    border-top:1px solid var(--rule);padding-top:16px;
+    display:flex;flex-wrap:wrap;gap:8px 22px;
+  }
+  .byline b{color:var(--ink);font-weight:700;}
+
+  article{padding:18px 0 40px;}
+  article p{margin:0 0 22px;}
+  article p a{color:var(--water);text-decoration:none;border-bottom:1px solid var(--water-bright);}
+
+  .lead::first-letter{
+    font-family:'Fraunces',serif;font-weight:600;float:left;
+    font-size:80px;line-height:.74;padding:8px 12px 0 0;color:var(--heat4);
+  }
+
+  /* the null punchline */
+  .verdict{
+    font-family:'Fraunces',serif;font-style:italic;font-weight:340;
+    font-size:clamp(34px,7vw,58px);line-height:1;color:var(--heat4);
+    text-align:center;margin:8px 0 30px;letter-spacing:-.01em;
+  }
+
+  /* pull quote */
+  .pq{margin:46px 0;padding:0 0 0 26px;border-left:2px solid var(--water);}
+  .pq p{
+    font-family:'Fraunces',serif;font-weight:340;font-size:clamp(24px,4.4vw,33px);
+    line-height:1.22;color:var(--ink);margin:0;letter-spacing:-.01em;
+  }
+
+  /* section tick on the canal */
+  .tick{position:relative;height:0;margin:54px 0;}
+  .tick::before{
+    content:"";position:absolute;left:max(-650px,calc(-50vw + 28px));width:0;
+  }
+
+  /* ---- data figures ---- */
+  figure{
+    margin:48px 0;background:linear-gradient(160deg,var(--paper),var(--sand-deep));
+    border:1px solid var(--rule);border-radius:3px;
+    padding:30px 30px 24px;position:relative;
+    box-shadow:0 18px 40px -28px rgba(43,32,20,.6);
+  }
+  figure .ftag{
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--water);font-weight:700;margin-bottom:4px;
+  }
+  figure .ftitle{
+    font-family:'Fraunces',serif;font-weight:600;font-size:23px;line-height:1.12;
+    margin-bottom:22px;color:var(--ink);
+  }
+  figcaption{
+    font-family:'Space Mono',monospace;font-size:12px;line-height:1.55;
+    color:var(--ink-soft);margin-top:20px;border-top:1px dashed var(--rule);padding-top:12px;
+  }
+  .barrow{display:flex;align-items:center;gap:14px;margin:13px 0;}
+  .barlabel{font-family:'Space Mono',monospace;font-size:12.5px;width:104px;flex:none;color:var(--ink);line-height:1.2;}
+  .bartrack{flex:1;height:30px;background:rgba(43,32,20,.07);border-radius:2px;overflow:hidden;}
+  .barfill{display:block;height:100%;border-radius:2px;transform-origin:left;animation:grow 1s .3s cubic-bezier(.2,.7,.2,1) both;}
+  @keyframes grow{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+  .barval{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;width:52px;flex:none;text-align:right;}
+
+  /* two-gap figure */
+  .gap-grid{display:flex;flex-direction:column;gap:6px;}
+
+  /* mechanism figure */
+  .mech{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .mcard{border:1px solid var(--rule);border-radius:3px;padding:18px 18px 16px;background:rgba(241,231,210,.5);}
+  .mcard.water{border-color:var(--water);box-shadow:inset 3px 0 0 var(--water);}
+  .mname{font-family:'Space Mono',monospace;font-size:11.5px;letter-spacing:.04em;color:var(--ink-soft);line-height:1.35;min-height:46px;}
+  .mrow{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;}
+  .mk{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);}
+  .mv{font-family:'Fraunces',serif;font-weight:600;font-size:26px;color:var(--ink);}
+  .mv.hot{color:var(--heat4);}
+  .mv.warm{color:var(--heat2);}
+  .canopybar{height:8px;background:rgba(43,32,20,.1);border-radius:4px;margin-top:5px;overflow:hidden;}
+  .canopybar i{display:block;height:100%;background:var(--ink-soft);border-radius:4px;}
+
+  footer{border-top:1px solid var(--rule);margin-top:30px;padding:30px 0 90px;}
+  footer .col{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;
+    font-family:'Space Mono',monospace;font-size:11.5px;letter-spacing:.06em;color:var(--ink-soft);}
+  footer b{color:var(--water);}
+
+  /* reveal (progressive enhancement: visible by default; animated only when JS adds .js) */
+  .rv{opacity:1;}
+  .js .rv{opacity:0;transform:translateY(20px);transition:opacity .8s ease, transform .8s ease;}
+  .js .rv.in{opacity:1;transform:none;}
+
+  @media(max-width:560px){
+    body{font-size:18px;}
+    .col{padding:0 22px;}
+    .canal{left:10px;}
+    .mech{grid-template-columns:1fr;}
+    .masthead{padding:54px 0 24px;}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .canal::before{animation:none;}
+    .barfill{animation:none;}
+    .js .rv{transition:none;opacity:1;transform:none;}
+  }
+</style>
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<div class="canal" aria-hidden="true"></div>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="col">
+      <div class="eyebrow rv">somewhere&#8202;&mdash;&#8202;else.org &nbsp;/&nbsp; Systems</div>
+      <h1 class="rv">The Hohokam <span class="ital">Pattern</span></h1>
+      <p class="dek rv">Phoenix runs on a thousand-year-old idea about water. The city is coolest where that idea is still being practiced.</p>
+      <div class="byline rv">
+        <span>By <b>Sean Jayasekera</b></span>
+        <span>Dateline&nbsp;&mdash;&nbsp;Phoenix, Arizona</span>
+        <span>671 census tracts</span>
+      </div>
+    </div>
+  </header>
+
+  <article>
+    <div class="col">
+
+      <p class="lead rv">Phoenix is a city built on top of a decision made roughly a thousand years before it existed. The Hohokam, who farmed the Salt River valley until sometime in the fifteenth century, cut hundreds of miles of irrigation canals across the desert floor. When Anglo settlers arrived in the 1860s, they did not so much survey the land as re-excavate it &mdash; clearing the old Hohokam channels and running water through them again. The modern system, operated now by the Salt River Project and the Central Arizona Project, still traces some of those original lines. The city took its name to match: a settlement rising from the ashes of an older one.</p>
+
+      <p class="rv">So it is a reasonable thing to wonder whether the canals cool the city. Open water evaporates, and evaporation pulls heat from the air. Canal corridors carry vegetation, and vegetation shades and transpires. In a metro that spends its summers above 110 degrees &mdash; where the urban heat island, the tendency of pavement and rooftops to hold the day&rsquo;s heat and release it slowly through the night, is among the most severe in the country &mdash; the canals are the obvious candidate for a natural air conditioner threaded through the grid. If proximity to water cooled the neighborhoods around it, you would see it in the data.</p>
+
+      <p class="verdict rv">You do not.</p>
+
+      <p class="rv">Measured across the central Phoenix metro &mdash; 671 census tracts, each with a modeled urban-heat index and a full accounting of its relationship to the canal network &mdash; the connection comes to almost nothing. Distance to the nearest canal correlates with heat at a coefficient of &minus;0.07, statistically indistinguishable from zero. A tract among the densest in canal coverage is, on average, less than a tenth of a degree cooler than one among the sparsest, and even that sliver fails to clear the bar of significance. Run the comparison every defensible way, and the result holds. At the scale of the city, living near a canal does not make a neighborhood cooler.</p>
+
+      <p class="rv">That is the easy part. A null result is clean; it closes a question. The harder and more interesting question is the one it forces next: if not the water, then what?</p>
+
+      <p class="rv">The answer the data gives is not about infrastructure at all. It is about time.</p>
+
+      <figure class="rv">
+        <div class="ftag">Field reading 01 &mdash; what moves the heat</div>
+        <div class="ftitle">Two gaps, drawn to the same scale</div>
+        <div class="gap-grid">
+          <div class="barrow"><span class="barlabel">Canal density<br>dense vs sparse</span><span class="bartrack"><i class="barfill" style="width:6%;background:var(--water)"></i></span><span class="barval">0.05&deg;</span></div>
+          <div class="barrow"><span class="barlabel">Build era<br>older vs newer</span><span class="bartrack"><i class="barfill" style="width:88%;background:linear-gradient(90deg,var(--heat2),var(--heat4))"></i></span><span class="barval">0.70&deg;</span></div>
+        </div>
+        <figcaption>Difference in average neighborhood heat (&deg;F). The canal gap is statistical noise. The gap between Phoenix built before and after the mid-1980s is roughly fourteen times larger &mdash; and it is real.</figcaption>
+      </figure>
+
+      <p class="rv">The strongest single predictor of how hot a Phoenix tract runs is the median year its buildings went up. Older tracts are hotter, newer ones cooler, and the gap is wide &mdash; neighborhoods built before the mid-1980s run, on average, about seven-tenths of a degree hotter than those built after. That is roughly seventeen times the size of anything the canals could produce. Income, homeownership, and rent all line up behind year built, pointing the same way. The map of heat in Phoenix is, to a first approximation, a map of when the city was built outward: a hot, dense, aging core loosening into cooler, lower, newer rings of suburb.</p>
+
+      <p class="rv">But <em>when</em> a neighborhood was built, in an American city, is never only when. It is also who.</p>
+
+      <figure class="rv">
+        <div class="ftag">Field reading 02 &mdash; four phoenixes</div>
+        <div class="ftitle">How hot each kind of neighborhood runs</div>
+        <div class="gap-grid">
+          <div class="barrow"><span class="barlabel">Outer-ring exurbs</span><span class="bartrack"><i class="barfill" style="width:71%;background:var(--heat1)"></i></span><span class="barval">6.03&deg;</span></div>
+          <div class="barrow"><span class="barlabel">Newer suburbs</span><span class="bartrack"><i class="barfill" style="width:85%;background:var(--heat2)"></i></span><span class="barval">7.23&deg;</span></div>
+          <div class="barrow"><span class="barlabel">Working-class<br>Hispanic, canal-fed</span><span class="bartrack"><i class="barfill" style="width:86%;background:var(--heat3s)"></i></span><span class="barval">7.33&deg;</span></div>
+          <div class="barrow"><span class="barlabel">Older Hispanic<br>urban core</span><span class="bartrack"><i class="barfill" style="width:93%;background:var(--heat4)"></i></span><span class="barval">7.91&deg;</span></div>
+        </div>
+        <figcaption>Average urban-heat index, degrees above the rural baseline. The hottest neighborhoods are the oldest, lowest-income, and most heavily Hispanic &mdash; heat concentrated where the city was built first and handed down.</figcaption>
+      </figure>
+
+      <p class="rv">Let the tracts sort themselves into kinds &mdash; grouped by age, wealth, homeownership, ethnic composition, and canal density, then asked how hot each kind runs &mdash; and four Phoenixes appear. The coolest is a thin band of new exurban tracts on the desert fringe: wealthy, recently built, almost entirely non-Hispanic. Next, the broad ring of newer middle- and upper-class suburbs. Then a cluster of working-class, Hispanic-majority neighborhoods. And the hottest, by a clear margin, is the older Hispanic urban core &mdash; the oldest housing stock, the lowest incomes, the most renters, and the most relentless heat, so tightly concentrated that nearly every tract in it runs hot.</p>
+
+      <div class="pq rv"><p>Heat in Phoenix is not distributed so much as inherited. It pools in the neighborhoods built earliest and handed down, over the decades, to the people with the least room to move.</p></div>
+
+      <p class="rv">Which is where the canals come back.</p>
+
+      <p class="rv">The two Hispanic-majority clusters are demographic near-twins &mdash; close on the share of Hispanic residents, close on income. What separates them is the canals. One sits in neighborhoods laced with canal infrastructure at six times the density of the other, and it runs more than half a degree cooler. The clean citywide null, broken open, was hiding a real signal in a specific place.</p>
+
+      <p class="rv">The reason is a practice most of the metro has forgotten it still has. In a handful of older working-class neighborhoods, residents flood-irrigate &mdash; opening a gate and letting canal water sheet across their yards and lots, the way the valley&rsquo;s farms did a century ago and the Hohokam did a thousand years before that. Where the practice survives, the block is measurably cooler.</p>
+
+      <p class="rv">The obvious explanation is shade: water grows trees, trees cast shade, shade cools. But that is not what is happening here.</p>
+
+      <figure class="rv">
+        <div class="ftag">Field reading 03 &mdash; the mechanism</div>
+        <div class="ftitle">Same tree cover. Different heat.</div>
+        <div class="mech">
+          <div class="mcard">
+            <div class="mname">OLDER HISPANIC URBAN CORE<br>canal-sparse</div>
+            <div class="mrow"><span class="mk">Tree canopy</span><span class="mv" style="font-size:18px">0.91%</span></div>
+            <div class="canopybar"><i style="width:91%"></i></div>
+            <div class="mrow"><span class="mk">Heat</span><span class="mv hot">7.91&deg;</span></div>
+          </div>
+          <div class="mcard water">
+            <div class="mname">WORKING-CLASS HISPANIC<br>canal-fed, flood-irrigated</div>
+            <div class="mrow"><span class="mk">Tree canopy</span><span class="mv" style="font-size:18px">0.82%</span></div>
+            <div class="canopybar"><i style="width:82%"></i></div>
+            <div class="mrow"><span class="mk">Heat</span><span class="mv warm">7.33&deg;</span></div>
+          </div>
+        </div>
+        <figcaption>Two near-identical neighborhoods with the same sparse tree cover. Hold canopy constant and the cooling gap moves by three-thousandths of a degree. The cooling is not shade &mdash; it is the water, at ground level.</figcaption>
+      </figure>
+
+      <p class="rv">Measured tract by tract, the cooler canal-fed neighborhoods turn out to be no leafier than the hotter ones &mdash; if anything, marginally less. Hold tree canopy constant and the cooling gap moves by three-thousandths of a degree. The cooling is not falling from a canopy overhead. It is rising from the ground: water spread thin across open soil, evaporating, and the low grass and turf it keeps alive &mdash; the same latent-heat exchange a farm field runs, set down inside a residential block. The canals do cool Phoenix. They do it the way they were built to, by being let out across the land, and only in the few places that still let them.</p>
+
+      <div class="pq rv"><p>What the heat index was measuring all along was not whether a neighborhood sits near water &mdash; but whether it still uses water the old way.</p></div>
+
+      <p class="rv">Phoenix did not inherit the Hohokam&rsquo;s canals, exactly. The channels were re-dug, re-engineered, renamed; some of the water in them now comes from a river three hundred miles away. What the city inherited was the Hohokam&rsquo;s decision &mdash; that in a desert, water is something you carry out across the land and let go. For most of the modern city that decision has been abstracted into pipes and meters and a heat index that registers no benefit. But in the neighborhoods where the water still runs out over open ground, the old decision is remade on every irrigation cycle, and the city is coolest exactly there.</p>
+
+      <p class="rv">The Hohokam pattern, it turns out, was never really about the canals. It was about what you do with the water once it arrives.</p>
+
+    </div>
+  </article>
+
+  <footer>
+    <div class="col">
+      <span><b>somewhere&#8202;&mdash;&#8202;else.org</b> &nbsp; The city as a system</span>
+      <span>Sources: USGS NHD &middot; TIGER/Census &middot; Climate Central &middot; ACS &middot; NLCD</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+    });
+  },{threshold:.18});
+  document.querySelectorAll('.rv').forEach((el,i)=>{
+    el.style.transitionDelay=(Math.min(i,6)*0.05)+'s';
+    io.observe(el);
+  });
+  // masthead reveals immediately
+  document.querySelectorAll('.masthead .rv').forEach((el,i)=>{
+    setTimeout(()=>el.classList.add('in'),120+i*110);
+  });
+</script>
+</body>
+</html>
