@@ -2,11 +2,11 @@
 
 > Phoenix is built on a thousand-year-old canal network — so the neighborhoods nearest the water should be the coolest. They aren't. This is an analysis of what actually decides who stays cool in Phoenix, and the one place the old canals still do their job.
 
-![The Hohokam Pattern](article/hohokam_pattern_cover.png)
+![The Hohokam Pattern](hohokam_pattern_cover.png)
 
 A spatial analysis of urban heat across the Phoenix metro at the census-tract level. The guiding question was whether proximity to the canal network keeps neighborhoods cooler. It does not — at the city scale, canal proximity has no measurable effect on heat. What predicts heat is **when a neighborhood was built and who has historically lived there**, with the burden concentrated in the oldest, lowest-income, Hispanic-majority core. The exception is a set of working-class neighborhoods that still **flood-irrigate** from the canals; there the water measurably cools the block — and the mechanism is direct evaporative cooling at ground level, **not** tree shade.
 
-**Read it:** [the article](https://somewhere-else.org/) · [the technical report](report/technical_report.pdf)
+**Read it:** [the article](https://somewhere-else.org/) · [the technical report](technical_report.pdf)
 
 ## Key findings
 
@@ -26,7 +26,7 @@ A spatial analysis of urban heat across the Phoenix metro at the census-tract le
 | Census ACS 5-year 2023 | Demographics — year built, income, tenure, ethnicity | Requires a free Census API key |
 | MRLC NLCD Tree Canopy | Tree-canopy % by tract | 30 m raster, zonal mean |
 
-Full provenance, endpoints, and re-fetch instructions are in [`data/README.md`](data/README.md).
+Full provenance, endpoints, and re-fetch instructions are in [`DATA.md`](DATA.md).
 
 ## Reproducing the analysis
 
@@ -38,11 +38,11 @@ jupyter lab
 
 Run the notebooks in order:
 
-1. **`notebooks/01_eda.ipynb`** — cleaning, spatial joins, exploratory analysis → `data/processed/tracts_working.gpkg`
-2. **`notebooks/02_analysis.ipynb`** — feature engineering, K-Means clustering, frequentist + Bayesian hypothesis tests → `data/processed/tracts_analyzed.gpkg` *(the frozen single source of truth)*
-3. **`notebooks/03_canopy_mediation.ipynb`** — tree-canopy mechanism test → `data/processed/tracts_analyzed_canopy.gpkg`
+1. **`01_eda.ipynb`** — cleaning, spatial joins, exploratory analysis → `tracts_working.gpkg`
+2. **`02_analysis.ipynb`** — feature engineering, K-Means clustering, frequentist + Bayesian hypothesis tests → `tracts_analyzed.gpkg` *(the frozen single source of truth)*
+3. **`03_canopy_mediation.ipynb`** — tree-canopy mechanism test → `tracts_analyzed_canopy.gpkg`
 
-Conventions worth knowing: the random seed is fixed at **42**; the analysis CRS is **EPSG:2223** (Arizona Central, US ft) and the storage CRS is **EPSG:4269**. Notebook 02's outputs are treated as frozen and feed everything downstream. The ACS step needs a Census API key (free, ~1 minute); the canopy step downloads an NLCD raster and needs network access.
+The notebooks reference their data under a `data/` path internally, so to actually re-run them, place the `.gpkg` files (and any fetched raw inputs) in a `data/processed/` subfolder or adjust the paths at the top of each notebook. Conventions worth knowing: the random seed is fixed at **42**; the analysis CRS is **EPSG:2223** (Arizona Central, US ft) and the storage CRS is **EPSG:4269**. Notebook 02's outputs are treated as frozen and feed everything downstream. The ACS step needs a Census API key (free, ~1 minute); the canopy step downloads an NLCD raster and needs network access.
 
 ## Repository structure
 
@@ -52,23 +52,17 @@ hohokam-pattern/
 ├── LICENSE
 ├── environment.yml
 ├── .gitignore
-├── notebooks/
-│   ├── 01_eda.ipynb
-│   ├── 02_analysis.ipynb          # + 02_analysis.html (rendered)
-│   └── 03_canopy_mediation.ipynb  # + 03_canopy_mediation.html (rendered)
-├── data/
-│   ├── README.md                  # source provenance + re-fetch instructions
-│   ├── raw/                       # gitignored — fetched, not committed
-│   └── processed/                 # committed (small, tract-level)
-│       ├── tracts_working.gpkg
-│       ├── tracts_analyzed.gpkg / .csv
-│       └── tracts_analyzed_canopy.gpkg / .csv
-├── report/
-│   ├── technical_report.md
-│   └── technical_report.pdf
-└── article/
-    ├── hohokam_pattern_article.html
-    └── hohokam_pattern_cover.png
+├── DATA.md                      # data sources + how to fetch them
+├── 01_eda.ipynb
+├── 02_analysis.ipynb
+├── 03_canopy_mediation.ipynb
+├── tracts_working.gpkg
+├── tracts_analyzed.gpkg
+├── tracts_analyzed_canopy.gpkg
+├── technical_report.md
+├── technical_report.pdf
+├── index.html                   # the article
+└── hohokam_pattern_cover.png
 ```
 
 ## Caveats
