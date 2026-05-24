@@ -1,0 +1,38 @@
+# The Hohokam Pattern — conda environment
+#
+# This is a sensible starting point. For an exact, reproducible pin, regenerate
+# from your working environment:
+#     conda env export --no-builds > environment.yml
+# (or `conda env export --from-history` for just the packages you asked for).
+
+name: hohokam-pattern
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+
+  # --- geospatial ---
+  - geopandas
+  - shapely
+  - pyproj
+  - fiona
+  - rasterio
+  - rasterstats        # zonal stats for tree canopy
+  - rioxarray
+  - pygeohydro         # NLCD tree-canopy fetch
+
+  # --- analysis ---
+  - scikit-learn       # K-Means, scaling, PCA
+  - pandas
+  - numpy
+  - scipy              # frequentist tests / distributions
+
+  # --- io + viz + notebooks ---
+  - openpyxl           # read the Climate Central .xlsx
+  - matplotlib
+  - jupyterlab
+  - pip
+
+  # --- uncomment if you used these for the Bayesian estimates ---
+  # - pymc
+  # - arviz
