@@ -1,0 +1,33 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+*.egg-info/
+.venv/
+env/
+
+# --- macOS ---
+.DS_Store
+
+# --- Data: raw is fetched, not committed (see data/README.md) ---
+data/raw/
+*.tif
+*.tiff
+*.img
+
+# --- Caches (pygeohydro / async_retriever HTTP cache) ---
+cache/
+*.sqlite
+
+# --- Secrets (never commit your Census API key) ---
+.env
+*.key
+*census*key*
+
+# --- Editors / misc ---
+.idea/
+.vscode/
+*.log
+
+# NOTE: data/processed/ IS committed on purpose — those are the small,
+# tract-level single-source-of-truth files the analysis reproduces from.
